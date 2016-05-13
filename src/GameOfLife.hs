@@ -1,7 +1,6 @@
 module GameOfLife (
         gameGrid, 
-        nextGeneration, 
-        aliveNeighbords,
+        glider,
         showGrid
     ) where
 
