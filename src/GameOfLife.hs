@@ -1,7 +1,8 @@
 module GameOfLife (
         gameGrid, 
         glider,
-        showGrid
+        showGrid,
+        runGame
     ) where
 
 import Data.List(intercalate, iterate)
