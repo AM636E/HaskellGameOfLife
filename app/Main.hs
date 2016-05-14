@@ -8,6 +8,6 @@ main = do
     args <- getArgs
     if length args == 2 then do
         board <- readGrid (head args)
-        runGame  ( createOpts board (read (args!!1) :: Int))
+        runGameContiniously  ( createOpts board (read (args!!1) :: Int))
     else
-        runGame (createOpts (glider 20 20) 10 )
+        runGameContiniously (createOpts (glider 20 20) 10 )
