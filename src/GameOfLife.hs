@@ -96,13 +96,13 @@ glider w h = gameGrid (w, h) [(2,1), (1, 3), (2, 3), (3,3), (3,2)]
 runGame :: GameOptions -> IO ()
 runGame opts = putStr $ intercalate "\n" $ map showGrid (take (runs opts) $ iterate nextGeneration (grid opts))
 
-runGameContiniously :: GameOptions -> IO ()
-runGameContiniously opts = do
+runGameContiniously :: GameOptions -> Int -> IO ()
+runGameContiniously opts delay = do
     let gen = (nextGeneration $ grid opts)
     putStr $ showGrid gen
-    threadDelay ((1000 * 60) * 4)
+    threadDelay ((1000 * 60) * delay)
     clearFromCursorToScreenBeginning
-    runGameContiniously $ createOpts gen 10
+    runGameContiniously (createOpts gen 10) delay
     return ()
 
 readGrid :: FilePath -> IO Grid
