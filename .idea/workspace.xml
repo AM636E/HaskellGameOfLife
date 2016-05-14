@@ -4,8 +4,6 @@
     <list default="true" id="26437e86-5a4e-47ac-bbe2-d29b6028b552" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Main.hs" afterPath="$PROJECT_DIR$/app/Main.hs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/learn-monads.cabal" afterPath="$PROJECT_DIR$/learn-monads.cabal" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/life.txt" afterPath="$PROJECT_DIR$/life.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/GameOfLife.hs" afterPath="$PROJECT_DIR$/src/GameOfLife.hs" />
     </list>
     <ignored path="learn-monads.iws" />
@@ -32,8 +30,8 @@
       <file leaf-file-name="GameOfLife.hs" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/GameOfLife.hs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-228">
-              <caret line="65" column="9" selection-start-line="65" selection-start-column="9" selection-end-line="65" selection-end-column="9" />
+            <state relative-caret-position="231">
+              <caret line="86" column="34" selection-start-line="86" selection-start-column="34" selection-end-line="86" selection-end-column="34" />
               <folding />
             </state>
           </provider>
@@ -102,8 +100,8 @@
       <file leaf-file-name="Main.hs" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Main.hs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="34">
-              <caret line="2" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
+            <state relative-caret-position="204">
+              <caret line="12" column="41" selection-start-line="12" selection-start-column="41" selection-end-line="12" selection-end-column="41" />
               <folding />
             </state>
           </provider>
@@ -145,8 +143,8 @@
         <option value="$PROJECT_DIR$/src/Floats.hs" />
         <option value="$PROJECT_DIR$/src/StateMachine.hs" />
         <option value="$PROJECT_DIR$/learn-monads.cabal" />
-        <option value="$PROJECT_DIR$/src/GameOfLife.hs" />
         <option value="$PROJECT_DIR$/app/Main.hs" />
+        <option value="$PROJECT_DIR$/src/GameOfLife.hs" />
       </list>
     </option>
   </component>
@@ -689,7 +687,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1463213710245</updated>
-      <workItem from="1463213714249" duration="10178000" />
+      <workItem from="1463213714249" duration="11463000" />
     </task>
     <task id="LOCAL-00001" summary="Finished game of life.">
       <created>1463216064563</created>
@@ -702,7 +700,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="10178000" />
+    <option name="totallyTimeSpent" value="11463000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="754" extended-state="6" />
@@ -843,16 +841,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Main.hs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
+        <state relative-caret-position="204">
+          <caret line="12" column="41" selection-start-line="12" selection-start-column="41" selection-end-line="12" selection-end-column="41" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/GameOfLife.hs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-228">
-          <caret line="65" column="9" selection-start-line="65" selection-start-column="9" selection-end-line="65" selection-end-column="9" />
+        <state relative-caret-position="231">
+          <caret line="86" column="34" selection-start-line="86" selection-start-column="34" selection-end-line="86" selection-end-column="34" />
           <folding />
         </state>
       </provider>

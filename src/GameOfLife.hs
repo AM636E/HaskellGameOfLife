@@ -78,12 +78,13 @@ gameGrid (h, w) cells =
 showGrid :: Grid -> String
 showGrid g =
     let
+        w = length (head g)
         h = length g
     in
     intercalate "\n" [
             [
-                if (g !! y) !! x then '@' else '-' | x <- [0 .. (h-1)]
-            ]   | y <- [0 .. (length  (head g) -1 )]
+                if (g !! y) !! x then '@' else '-' | x <- [0 .. w - 1]
+            ]   | y <- [0 .. h - 1]
         ] ++ "\n"
 
 glider :: Int -> Int -> Grid
@@ -97,5 +98,5 @@ readGrid path = do
         contents <- readFile path
         return [ [x == '@' | x <- y] | y <- (map cleared (splitOn "\n" contents)) ]
         where
-            badChars = ['\0', '\160', '\9632', '\NUL', '\r']
+            badChars = ['\0', '\160', '\9632', '\NUL', '\r', '\n']
             cleared x = filter (\ch -> not(ch `elem` badChars)) x
