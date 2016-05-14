@@ -28,7 +28,7 @@ neightbords xs (x, y) =
     where sz = length $ head xs
 
 aliveNeighbords :: Grid -> Coordinate -> [Coordinate]
-aliveNeighbords g c = filter (\(x, y) -> ((g!! (y-1) )!! (x-1)) == True) $ neightbords g c
+aliveNeighbords g c = filter (\(x, y) -> ((g!! (y-1) )!! (x-1))) $ neightbords g c
 
 nextGeneration :: Grid -> Grid
 nextGeneration grid =
@@ -40,13 +40,11 @@ nextGeneration grid =
     in
         [
             [
-                if item (x, y) == True && (countOfAlive (x, y) < 2 || countOfAlive (x, y) > 3) -- Death from overpopulation.
+                if item (x, y) && (countOfAlive (x, y) < 2 || countOfAlive (x, y) > 3) -- Death from overpopulation.
                     then False
-                    else if item (x, y) == False && countOfAlive (x, y) == 3    -- Born from division.
+                    else if not (item (x, y)) && countOfAlive (x, y) == 3    -- Born from division.
                         then True
-                        else if item (x, y) == True && (countOfAlive (x, y) == 2 || countOfAlive (x, y) == 3) -- Live continues.
-                            then True
-                            else False
+                        else item (x, y) && (countOfAlive (x, y) == 2 || countOfAlive (x, y) == 3) -- Live continues.
                         | x <- [1 .. w]
             ]
                         | y <- [1 .. h]
@@ -56,9 +54,7 @@ gameGrid :: (Int, Int) -> [(Int, Int)] -> Grid
 gameGrid (h, w) cells = 
     [
         [
-            if (x, y) `elem` cells 
-                then True 
-                else False 
+            (x, y) `elem` cells
                     | x <- [1 .. w]
         ] 
                     | y <- [1 .. h]
@@ -73,12 +69,8 @@ showGrid grid =
     in
     intercalate "\n" [
             [
-                if ((grid!!y)!!x) == True
-                    then '@'
-                        else '-'
-                            | x <- [0 .. (h-1)]
-            ]
-                            | y <- [0 .. ((length $ head grid) -1 )]
+                if (grid !! y) !! x then '@' else '-' | x <- [0 .. (h-1)]
+            ]   | y <- [0 .. ((length $ head grid) -1 )]
         ] ++ "\n"
 
 glider :: Int -> Int -> Grid
