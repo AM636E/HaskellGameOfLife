@@ -2,13 +2,23 @@ module GameOfLife (
         gameGrid, 
         glider,
         showGrid,
-        runGame
+        runGame,
+        createOpts,
+        readGrid
     ) where
 
 import Data.List(intercalate)
+import Data.List.Split(splitOn)
 
 type Grid = [[Bool]]
 type Coordinate = (Int, Int)
+data GameOptions = GameOptions {
+                      grid :: Grid
+                     ,runs :: Int } deriving(Show)
+
+createOpts :: Grid -> Int -> GameOptions
+createOpts g r = GameOptions {grid = g, runs = r}
+
 
 neightbords :: Grid -> Coordinate -> [Coordinate]
 neightbords [] _ = []
@@ -34,12 +44,12 @@ aliveNeighbords :: Grid -> Coordinate -> [Coordinate]
 aliveNeighbords g c = filter (\(x, y) -> ((g!! (y-1) )!! (x-1))) $ neightbords g c
 
 nextGeneration :: Grid -> Grid
-nextGeneration grid =
+nextGeneration g =
     let
-        h = length grid
-        w = length $ head grid
-        countOfAlive c = length $ aliveNeighbords grid c
-        item (x, y) = ((grid!!(y-1))!!(x-1))
+        h = length g
+        w = length $ head g
+        countOfAlive c = length $ aliveNeighbords g c
+        item (x, y) = ((g!!(y-1))!!(x-1))
     in
         [
             [
@@ -66,18 +76,26 @@ gameGrid (h, w) cells =
     ]
 
 showGrid :: Grid -> String
-showGrid grid =
+showGrid g =
     let
-        h = length grid
+        h = length g
     in
     intercalate "\n" [
             [
-                if (grid !! y) !! x then '@' else '-' | x <- [0 .. (h-1)]
-            ]   | y <- [0 .. (length  (head grid) -1 )]
+                if (g !! y) !! x then '@' else '-' | x <- [0 .. (h-1)]
+            ]   | y <- [0 .. (length  (head g) -1 )]
         ] ++ "\n"
 
 glider :: Int -> Int -> Grid
 glider w h = gameGrid (w, h) [(2,1), (1, 3), (2, 3), (3,3), (3,2)]
 
-runGame :: Int -> Grid -> IO ()
-runGame n grid = putStr $ intercalate "\n" $ map showGrid (take n $ iterate nextGeneration grid)
+runGame :: GameOptions -> IO ()
+runGame opts = putStr $ intercalate "\n" $ map showGrid (take (runs opts) $ iterate nextGeneration (grid opts))
+
+readGrid :: FilePath -> IO Grid
+readGrid path = do
+        contents <- readFile path
+        return [ [x == '@' | x <- y] | y <- (map cleared (splitOn "\n" contents)) ]
+        where
+            badChars = ['\0', '\160', '\9632', '\NUL', '\r']
+            cleared x = filter (\ch -> not(ch `elem` badChars)) x

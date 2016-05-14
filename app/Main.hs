@@ -1,5 +1,5 @@
 module Main where
-import GameOfLife(runGame, glider)
+import GameOfLife
 
 main :: IO ()
-main = runGame 10 $ glider 5 5
+main = runGame (createOpts (glider 20 20) 10 )
