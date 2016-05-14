@@ -17,15 +17,18 @@ neightbords xs (x, y) =
     (\(x', y') -> 
         x' > 0 && 
         y' > 0 && 
-        x' < sz && 
-        y' < sz)
+        x' < w &&
+        y' < h)
     [
         (x', y') | 
             x' <- [(x - 1) .. (x + 1)], 
             y' <- [(y - 1) .. (y + 1)],
             (x', y') /= (x, y)
     ]
-    where sz = length $ head xs
+    where
+        w = length $ head xs
+        h = length xs
+
 
 aliveNeighbords :: Grid -> Coordinate -> [Coordinate]
 aliveNeighbords g c = filter (\(x, y) -> ((g!! (y-1) )!! (x-1))) $ neightbords g c
