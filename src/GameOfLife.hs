@@ -52,7 +52,7 @@ nextGeneration grid =
                         | y <- [1 .. h]
         ]
 
-gameGrid :: (Int, Int) -> [(Int, Int)] -> Grid
+gameGrid :: Coordinate -> [Coordinate] -> Grid
 gameGrid (h, w) cells = 
     [
         [
@@ -61,8 +61,6 @@ gameGrid (h, w) cells =
         ] 
                     | y <- [1 .. h]
     ]
-
-
 
 showGrid :: Grid -> String
 showGrid grid =
