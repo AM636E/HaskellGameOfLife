@@ -40,11 +40,13 @@ nextGeneration grid =
     in
         [
             [
-                if item (x, y) && (countOfAlive (x, y) < 2 || countOfAlive (x, y) > 3) -- Death from overpopulation.
-                    then False
-                    else if not (item (x, y)) && countOfAlive (x, y) == 3    -- Born from division.
-                        then True
-                        else item (x, y) && (countOfAlive (x, y) == 2 || countOfAlive (x, y) == 3) -- Live continues.
+                not ( item (x, y) && (countOfAlive (x, y) < 2 || countOfAlive (x, y) > 3) ) -- Death from overpopulation.
+                    &&
+                     (
+                        (not (item (x, y)) && countOfAlive (x, y) == 3) ||
+                        (item (x, y) &&
+                        (countOfAlive (x, y) == 2 || countOfAlive (x, y) == 3))
+                     ) -- Live continues.
                         | x <- [1 .. w]
             ]
                         | y <- [1 .. h]
@@ -70,7 +72,7 @@ showGrid grid =
     intercalate "\n" [
             [
                 if (grid !! y) !! x then '@' else '-' | x <- [0 .. (h-1)]
-            ]   | y <- [0 .. ((length $ head grid) -1 )]
+            ]   | y <- [0 .. (length  (head grid) -1 )]
         ] ++ "\n"
 
 glider :: Int -> Int -> Grid
