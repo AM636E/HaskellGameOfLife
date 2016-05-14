@@ -5,6 +5,7 @@ module GameOfLife (
         runGame,
         createOpts,
         readGrid,
+        nextGeneration,
         runGameContiniously
     ) where
 
@@ -80,6 +81,7 @@ gameGrid (h, w) cells =
     ]
 
 showGrid :: Grid -> String
+showGrid [] = ""
 showGrid g =
     let
         w = length (head g)
