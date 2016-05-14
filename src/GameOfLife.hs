@@ -5,9 +5,8 @@ module GameOfLife (
         runGame
     ) where
 
-import Data.List(intercalate, iterate)
+import Data.List(intercalate)
 
--- Game of Life
 type Grid = [[Bool]]
 type Coordinate = (Int, Int)
 
@@ -26,7 +25,7 @@ neightbords xs (x, y) =
             y' <- [(y - 1) .. (y + 1)],
             (x', y') /= (x, y)
     ]
-    where sz = size $ head xs
+    where sz = length $ head xs
 
 aliveNeighbords :: Grid -> Coordinate -> [Coordinate]
 aliveNeighbords g c = filter (\(x, y) -> ((g!! (y-1) )!! (x-1)) == True) $ neightbords g c
@@ -34,18 +33,23 @@ aliveNeighbords g c = filter (\(x, y) -> ((g!! (y-1) )!! (x-1)) == True) $ neigh
 nextGeneration :: Grid -> Grid
 nextGeneration grid =
     let
-        h = size grid
-        w = size $ head grid
-        countOfAlive c = size $ aliveNeighbords grid c
+        h = length grid
+        w = length $ head grid
+        countOfAlive c = length $ aliveNeighbords grid c
+        item (x, y) = ((grid!!(y-1))!!(x-1))
     in
         [
             [
-                if countOfAlive (x, y) < 2 || countOfAlive (x, y) >= 3
+                if item (x, y) == True && (countOfAlive (x, y) < 2 || countOfAlive (x, y) > 3) -- Death from overpopulation.
                     then False
-                    else True
-                        | x <- [1 .. h]
+                    else if item (x, y) == False && countOfAlive (x, y) == 3    -- Born from division.
+                        then True
+                        else if item (x, y) == True && (countOfAlive (x, y) == 2 || countOfAlive (x, y) == 3) -- Live continues.
+                            then True
+                            else False
+                        | x <- [1 .. w]
             ]
-                        | y <- [1 .. w]
+                        | y <- [1 .. h]
         ]
 
 gameGrid :: (Int, Int) -> [(Int, Int)] -> Grid
@@ -60,22 +64,25 @@ gameGrid (h, w) cells =
                     | y <- [1 .. h]
     ]
 
-size [] = 0;
-size (_:xs) = (+1) $ size xs
+
 
 showGrid :: Grid -> String
 showGrid grid =
     let
-        h = size grid
+        h = length grid
     in
     intercalate "\n" [
             [
-                if ((grid!!x)!!y) == True
+                if ((grid!!y)!!x) == True
                     then '@'
                         else '-'
                             | x <- [0 .. (h-1)]
             ]
-                            | y <- [0 .. ((size $ head grid) -1 )]
+                            | y <- [0 .. ((length $ head grid) -1 )]
         ] ++ "\n"
+
+glider :: Int -> Int -> Grid
 glider w h = gameGrid (w, h) [(2,1), (1, 3), (2, 3), (3,3), (3,2)]
+
+runGame :: Int -> Grid -> IO ()
 runGame n grid = putStr $ intercalate "\n" $ map showGrid (take n $ iterate nextGeneration grid)
