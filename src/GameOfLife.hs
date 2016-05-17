@@ -70,7 +70,7 @@ nextGeneration g =
                         | y <- [1 .. h]
         ]
 
-gameGrid :: Coordinate -> [Coordinate] -> Grid
+gameGrid :: (Int, Int) -> [Coordinate] -> Grid
 gameGrid (h, w) cells = 
     [
         [
