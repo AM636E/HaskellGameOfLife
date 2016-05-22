@@ -30,7 +30,7 @@ flip' (a, b) = (b, a)
 both f (a, b) = (f a, f b)
 viewPort = ViewPort (flip' (-700, -500)) (90*2) 0.2
 
-window = InWindow "" (700, 500) (10, 10)
+window = InWindow "Game Of Life" (700, 500) (10, 10)
 
 runGameGui :: GameFunc
 runGameGui (GameOptions grid runs) delay renderF =
