@@ -137,7 +137,7 @@ runGameContiniously opts delay renderF = do
 readGrid :: FilePath -> IO Grid
 readGrid path = do
         contents <- readFile path
-        return [ [x == '@' | x <- y] | y <- map cleared (splitOn "\n" contents) ]
+        return $ filter (not.null) [ [x == '@' | x <- y] | y <- map cleared (splitOn "\n" contents) ]
         where
             badChars = ['\0', '\160', '\9632', '\NUL', '\r', '\n']
             cleared = filter (`notElem` badChars)

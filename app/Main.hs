@@ -11,6 +11,6 @@ main = do
     args <- getArgs
     if length args == 2 then do
         board <- readGrid (head args)
-        func  ( createOpts board (read (args!!1) :: Int)) (read $ args!!1) renderGui
+        func  ( createOpts board 0) (read $ args!!1) renderGui
     else
         func (createOpts (glider 50 50) 10 ) 10 renderGui
