@@ -8,6 +8,7 @@ module GameOfLife (
         nextGeneration,
         runGameContiniously,
         RenderFunc,
+        GameFunc,
         GameOptions(..),
         Grid
     ) where
@@ -20,7 +21,11 @@ import Control.Monad(forM_)
 
 type Grid = [[Bool]]
 type Coordinate = (Int, Int)
+-- Defines a way to render grid.
 type RenderFunc = Bool -> Grid -> IO ()
+-- A way to run game continiously.
+-- Takes GameOptions, Delay, Rendering function.
+type GameFunc = GameOptions -> Int -> RenderFunc -> IO ()
 data GameOptions = GameOptions {
                       grid :: Grid
                      ,runs :: Int } deriving(Show)
@@ -64,11 +69,18 @@ nextGeneration g =
         [
             [
                 -- Calculating alive and dead cells.
-                -- Death from overpopulation.
-                not ( item (x, y) && (countOfAlive (x, y) < 2 || countOfAlive (x, y) > 3) )
+                -- Death from overpopulation or under population.
+                -------------------------------------------
+                -- This expression result is False if (x, y) item is True,
+                -- And it has less than two or more than three neightbords
+                not ( item (x, y) && (countOfAlive (x, y) < 2 ||
+                      countOfAlive (x, y) > 3) )
+                -------------------------------------------
                     &&
                      (
                         -- Birth
+                        -- If (x, y) cell is deal and has three neightbords
+                        -- It becomes alive.
                         (not (item (x, y)) && countOfAlive (x, y) == 3) ||
                         (item (x, y) &&
                         -- No change.
@@ -113,9 +125,9 @@ runGame opts = putStr $ intercalate "\n" $ map showGrid (take (runs opts) $ iter
 -- Render function takes Grid and bool argument
 -- If argument is true than function should clear screen.
 -- If false it should draw new generation.
-runGameContiniously :: GameOptions -> Int -> RenderFunc -> IO ()
+runGameContiniously :: GameFunc
 runGameContiniously opts delay renderF = do
-    let gen = (nextGeneration $ grid opts)
+    let gen = nextGeneration $ grid opts
     renderF True gen
     renderF False gen
     threadDelay ((100 * 60) * delay)
@@ -125,7 +137,7 @@ runGameContiniously opts delay renderF = do
 readGrid :: FilePath -> IO Grid
 readGrid path = do
         contents <- readFile path
-        return [ [x == '@' | x <- y] | y <- (map cleared (splitOn "\n" contents)) ]
+        return [ [x == '@' | x <- y] | y <- map cleared (splitOn "\n" contents) ]
         where
             badChars = ['\0', '\160', '\9632', '\NUL', '\r', '\n']
-            cleared x = filter (\ch -> not(ch `elem` badChars)) x
+            cleared = filter (`notElem` badChars)
