@@ -13,4 +13,4 @@ main = do
         board <- readGrid (head args)
         func  ( createOpts board (read (args!!1) :: Int)) (read $ args!!1) renderGui
     else
-        func (createOpts (glider 20 20) 10 ) 10 renderGui
+        func (createOpts (glider 50 50) 10 ) 10 renderGui

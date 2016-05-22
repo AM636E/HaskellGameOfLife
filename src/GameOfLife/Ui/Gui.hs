@@ -9,7 +9,7 @@
 -- Portability :
 --
 -- |
---
+---
 -----------------------------------------------------------------------------
 
 module GameOfLife.Ui.Gui (
@@ -17,6 +17,7 @@ module GameOfLife.Ui.Gui (
 ) where
 import GameOfLife
 import Graphics.Gloss
+import Graphics.Gloss.Data.ViewPort
 import Data.List.Split(splitOn)
 import Data.List(transpose, elemIndices)
 
@@ -25,17 +26,20 @@ renderGui _ [] = return ()
 renderGui True _ = return ()
 renderGui False grid = return ()
 
-window = InWindow "" (700, 700) (10, 10)
+flip' (a, b) = (b, a)
+both f (a, b) = (f a, f b)
+viewPort = ViewPort (flip' (-700, -500)) 90 0.5
+
+window = InWindow "" (700, 500) (10, 10)
 
 runGameGui :: GameFunc
 runGameGui (GameOptions grid runs) delay renderF =
     play window white delay grid draw (\_ w -> w) (\_ grid -> nextGeneration grid)
 
 rectangle x y w h = color red $ translate x y $ rectangleSolid w h
----
-clearWindow = color white $ rectangleSolid 700 700
+
 draw :: Grid -> Picture
-draw grid = pictures [
+draw grid = applyViewPortToPicture viewPort $ pictures [
                 uncurry renderLine y | y <- indexate grid
             ]
 
