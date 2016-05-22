@@ -29,21 +29,26 @@ window = InWindow "" (700, 700) (10, 10)
 
 runGameGui :: GameFunc
 runGameGui (GameOptions grid runs) delay renderF =
-    play window white delay grid draw (\_ w -> w) (\_ grid -> grid)
+    play window white delay grid draw (\_ w -> w) (\_ grid -> nextGeneration grid)
 
 rectangle x y w h = color red $ translate x y $ rectangleSolid w h
-
+---
 clearWindow = color white $ rectangleSolid 700 700
-draw grid = pictures
-            (
-                clearWindow : [
-                renderLine row x |
-                           x <- grid,
-                           row <- [1..(length grid)]
-                 ]
-            )
-            where
-                renderLine :: Int -> [Bool] -> Picture
-                renderLine i l = pictures [ rectangle (x * 5) (x * 5) 5 5 |
-                                            x <- trueIndices l ]
-                trueIndices = map fromIntegral . elemIndices True
+draw :: Grid -> Picture
+draw grid = pictures [
+                uncurry renderLine y | y <- indexate grid
+            ]
+
+getDiagonal :: [[a]] -> [a]
+getDiagonal [] = []
+getDiagonal (x:xs) = head x : getDiagonal (map tail xs)
+
+indexate :: [a] -> [(Int, a)]
+indexate [] = []
+indexate xs = getDiagonal [[(i,x) | x <- xs] | i <- [1..(length xs)]]
+
+renderLine :: Int -> [Bool] -> Picture
+renderLine i xs = pictures [
+         rectangle (20 *  fromIntegral (fst x))  (fromIntegral i * 20) 20 20 |
+         x <- indexate xs, snd x ]
+
