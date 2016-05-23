@@ -49,7 +49,7 @@ getDiagonal (x:xs) = head x : getDiagonal (map tail xs)
 
 indexate :: [a] -> [(Int, a)]
 indexate [] = []
-indexate xs = getDiagonal [[(i,x) | x <- xs] | i <- [1..(length xs)]]
+indexate xs = zipWith (curry flip') xs [1..(length xs)]
 
 renderLine :: Int -> [Bool] -> Picture
 renderLine i xs = pictures [
