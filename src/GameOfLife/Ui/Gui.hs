@@ -8,8 +8,8 @@
 -- Stability   :
 -- Portability :
 --
--- |
----
+--
+--
 -----------------------------------------------------------------------------
 
 module GameOfLife.Ui.Gui (
@@ -48,11 +48,11 @@ getDiagonal [] = []
 getDiagonal (x:xs) = head x : getDiagonal (map tail xs)
 
 indexate :: [a] -> [(Int, a)]
-indexate [] = []
-indexate xs = zipWith (curry flip') xs [1..(length xs)]
+indexate = zip [1..]
+
+size = 40
 
 renderLine :: Int -> [Bool] -> Picture
 renderLine i xs = pictures [
-         rectangle (20 *  fromIntegral (fst x))  (fromIntegral i * 20) 20 20 |
+         rectangle (size *  fromIntegral (fst x))  (fromIntegral i * size) size size |
          x <- indexate xs, snd x ]
-
